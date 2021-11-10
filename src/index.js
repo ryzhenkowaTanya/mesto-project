@@ -16,20 +16,21 @@ const popupCreateCard = document.querySelector('.popup_type_new-card');
 const buttonCreateCard = document.querySelector('.profile__button-add');
 const cardList = document.querySelector('.cards__list');
 const popupOpenImage = document.querySelector('.popup__image');
+console.log("fdgyh");
 const popupSignatureImage = document.querySelector('.popup__caption');
 const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 
 
-function handlerCardSubmit(evt) {
-    evt.preventDefault();
-    const card = {
-        name: nameInputCard.value,
-        link: linkInputCard.value
-    }
-    addCartInList(card)
-    cardForm.reset();
-    closePopup(popupCreateCard);
-}
+// function handlerCardSubmit(evt) {
+//     evt.preventDefault();
+//     const card = {
+//         name: nameInputCard.value,
+//         link: linkInputCard.value
+//     }
+//     addCartInList(card)
+//     cardForm.reset();
+//     closePopup(popupCreateCard);
+// }
 
 function editPopup() {
     inputName.value = profileName.textContent;
@@ -54,24 +55,24 @@ function handlerProfileSubmit(evt) {
     closePopup(popupEditProfile);
 }
 
-//создание новой карточки
-function createCard(card) {
-    const templateElement = templateCards.cloneNode(true);
-    templateElement.querySelector('.card__title').textContent = card.name;
-    const templateCardImage = templateElement.querySelector('.card__image');
-    const btnLike = templateElement.querySelector('.card__button-like')
-    const cardDelete = templateElement.querySelector('.card__button-delete')
-    templateCardImage.setAttribute('src', card.link);
-    btnLike.addEventListener('click', handleLikeCard);
-    cardDelete.addEventListener('click', handleDeleteCard);
-    templateCardImage.alt = card.name;
-    templateCardImage.addEventListener('click', () => {
-        handlePreviewImages(card)
-    });
-
-    return templateElement
-
-}
+// //создание новой карточки
+// function createCard(card) {
+//     const templateElement = templateCards.cloneNode(true);
+//     templateElement.querySelector('.card__title').textContent = card.name;
+//     const templateCardImage = templateElement.querySelector('.card__image');
+//     const btnLike = templateElement.querySelector('.card__button-like')
+//     const cardDelete = templateElement.querySelector('.card__button-delete')
+//     templateCardImage.setAttribute('src', card.link);
+//     btnLike.addEventListener('click', handleLikeCard);
+//     cardDelete.addEventListener('click', handleDeleteCard);
+//     templateCardImage.alt = card.name;
+//     templateCardImage.addEventListener('click', () => {
+//         handlePreviewImages(card)
+//     });
+//
+//     return templateElement
+//
+// }
 
 function handlePreviewImages(card) {
     popupOpenImage.src = card.link;
