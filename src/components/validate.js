@@ -1,3 +1,17 @@
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+import {closePopup} from "./modal";
+import {editPopup} from "./modal";
+
+
+
+function handlerProfileSubmit(evt) {
+    evt.preventDefault();
+    profileName.textContent = inputName.value;
+    profileJob.textContent = inputJob.value;
+    closePopup(popupEditProfile);
+}
+
 function enableValidation(config) {
     const form = document.querySelector(config.formSelector);
     form.addEventListener('submit', event => handleFormSubmit(event, config));
@@ -61,6 +75,10 @@ enableValidation({
     invalidButtonClass: 'popup_button_invalid',
     inputErrorClass: 'popup__input_type_error',
 })
+
+cardForm.addEventListener('submit', handlerCardSubmit);
+formElement.addEventListener('submit', handlerProfileSubmit);
+buttonOpenPopupProfile.addEventListener('click', editPopup);
 
 
 

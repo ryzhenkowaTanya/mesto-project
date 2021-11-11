@@ -1,3 +1,6 @@
+// import {closePopup} from "./modal";
+
+
 const initialCards = [
     {
         name: 'Pulau Ubin',
@@ -57,6 +60,8 @@ const buttonClosePopupProfile = document.querySelector('.popup__close');
 const popupEditProfile = document.querySelector('.popup_type_edit');
 //like
 const buttonLike = document.querySelector('.card__button-like')
+
+
 
 //input
 
@@ -184,4 +189,31 @@ function createCard(card) {
 
     return templateElement
 
+}
+
+
+
+
+function handlePreviewImages(card) {
+    popupOpenImage.src = card.link;
+    popupOpenImage.alt = card.name;
+    popupSignatureImage.textContent = card.name;
+    openPopup(popupImage);
+}
+
+
+//добавление карточки
+function addCartInList(card) {
+    const templateElement = createCard(card);
+    cardList.prepend(templateElement)
+}
+
+//реализация лайка
+function handleLikeCard(evt) {
+    evt.target.classList.toggle('like-active')
+}
+
+// удаление карточки
+function handleDeleteCard(evt) {
+    evt.target.closest('.card').remove()
 }

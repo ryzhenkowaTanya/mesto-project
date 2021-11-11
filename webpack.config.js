@@ -15,7 +15,7 @@ module.exports = {
     mode: 'development',
     plugins: [
         new htmlPlugin(
-            { title: 'webpack dev server'}
+            { title: 'Webpack dev server'}
         )
     ]
 };
