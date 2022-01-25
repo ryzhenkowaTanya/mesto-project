@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <link rel="stylesheet" href="pages/index.css">-->
     <title>Место</title>
 </head>
 <body class="root">
 <div class="page">
     <header class="header">
-        <img src="images/logo.svg" alt="Логотип компании" class="header__logo"/>
+        <img src="<%=require('./images/logo.svg')%>" alt="Логотип компании" class="header__logo"/>
     </header>
     <main class="content">
         <section class="profile">
-            <img src="images/avatar.jpg" alt="Фотография пользователя" class="profile__avatar">
+            <img src="<%=require('./images/avatar.jpg')%>" alt="Фотография пользователя" class="profile__avatar">
             <div class="profile__info">
                 <div class="profile__item">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -90,15 +89,12 @@
 <template id="card-template" class="card-template">
     <li class="card" id="card">
         <button aria-label="Иконка удаления" type="button" class="card__button-delete"></button>
-        <img src="images/papua-novaya-gvineya-7factov-2.jpg" alt="" class="card__image">
+        <img src="images/papua-novaya-gvineya.jpg" alt="" class="card__image">
         <div class="card__item">
             <h2 class="card__title"></h2>
             <button  id="likeButton" aria-label="Кнопка поставить лайк" type="button" class="card__button-like" ></button>
         </div>
     </li>
 </template>
-<script src="components/card.js" defer></script>
-<script src="index.js" defer></script>
-<script src="components/validate.js" defer type="module"></script>
 </body>
 </html>
