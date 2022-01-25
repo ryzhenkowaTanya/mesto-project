@@ -1,3 +1,5 @@
+import './styles/index.css';
+
 const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 const buttonClosePopupProfile = document.querySelector('.popup__close');
 const buttonClosePopupCard = document.querySelector('.popup__close_type_cards');
