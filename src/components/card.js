@@ -97,4 +97,3 @@ initialCards.forEach(addCartInList);
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 
-// проверка
