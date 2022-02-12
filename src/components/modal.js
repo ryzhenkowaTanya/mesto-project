@@ -12,7 +12,7 @@ const buttonClosePopupProfile = document.querySelector('.popup__close');
 const buttonClosePopupCard = document.querySelector('.popup__close_type_cards');
 const buttonClosePopupImage = document.querySelector('.popup__close_type_image');
 const buttonCreateCard = document.querySelector('.profile__button-add');
-
+const popup = document.querySelector('.popup')
 
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 
@@ -52,14 +52,14 @@ export function handlePreviewImages(card) {
 
 //function close popup press on esc
 export function closePopupPressEsc(event) {
-    if (event.keyCode === 27) {
-        closePopup(document.querySelector('.popup-opened'))
+    if (event.key === 'Escape' ) {
+        closePopup(popup.querySelector('.popup-opened'))
     }
 }
 
-document.addEventListener('click', close => closePressEmpty(close, popupEditProfile));
-document.addEventListener('click', close => closePressEmpty(close, popupCreateCard));
-document.addEventListener('click', close => closePressEmpty(close, popupImage));
+popup.addEventListener('click', close => closePressEmpty(close, popupEditProfile));
+popup.addEventListener('click', close => closePressEmpty(close, popupCreateCard));
+popup.addEventListener('click', close => closePressEmpty(close, popupImage));
 
 //function close press on empty space
 function closePressEmpty(close, popup) {
