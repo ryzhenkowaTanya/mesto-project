@@ -8,14 +8,11 @@ const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupOpenImage = document.querySelector('.popup__image');
 const popupSignatureImage = document.querySelector('.popup__caption');
 const popupImage = document.querySelector('.popup_type_image');
-const buttonClosePopupProfile = document.querySelector('.popup__close');
-const buttonClosePopupCard = document.querySelector('.popup__close_type_cards');
-const buttonClosePopupImage = document.querySelector('.popup__close_type_image');
 const buttonCreateCard = document.querySelector('.profile__button-add');
-const popup = document.querySelector('.popup')
+const popups = document.querySelectorAll('.popup')
 
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
-
+export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 
 export function editPopup() {
     inputName.value = profileName.textContent;
@@ -31,17 +28,6 @@ export function handlerProfileSubmit(evt) {
     closePopup(popupEditProfile);
 }
 
-
-export function openPopup(open) {
-    open.classList.add('popup-opened');
-    document.addEventListener('keydown', closePopupPressEsc)
-}
-
-export function closePopup(close) {
-    close.classList.remove('popup-opened');
-    document.removeEventListener('keydown', closePopupPressEsc)
-}
-
 export function handlePreviewImages(card) {
     popupOpenImage.src = card.link;
     popupOpenImage.alt = card.name;
@@ -49,34 +35,35 @@ export function handlePreviewImages(card) {
     openPopup(popupImage);
 }
 
+//function close and open popup
+export function openPopup(open) {
+    open.classList.add('popup__opened');
+    document.addEventListener('keydown', closePopupPressEsc)
+}
+
+export function closePopup(close) {
+    close.classList.remove('popup__opened');
+    document.removeEventListener('keydown', closePopupPressEsc)
+}
 
 //function close popup press on esc
 export function closePopupPressEsc(event) {
-    if (event.key === 'Escape' ) {
-        closePopup(popup.querySelector('.popup-opened'))
+    if (event.key === 'Escape') {
+        closePopup(document.querySelector('.popup__opened'))
     }
 }
 
-popup.addEventListener('click', close => closePressEmpty(close, popupEditProfile));
-popup.addEventListener('click', close => closePressEmpty(close, popupCreateCard));
-popup.addEventListener('click', close => closePressEmpty(close, popupImage));
-
-//function close press on empty space
-function closePressEmpty(close, popup) {
-    if (close.target.matches('.popup-opened')) {//event.target.matches('.popup-opened')
-        closePopup(popup)
-    }
-}
-
-
-//close Popup on button
-buttonClosePopupProfile.addEventListener('click', () => closePopup(popupEditProfile));
-buttonClosePopupCard.addEventListener('click', () => closePopup(popupCreateCard));
-buttonClosePopupImage.addEventListener('click', () => closePopup(popupImage));
-
-
-//openPopup
+//Listener for open popup
 buttonCreateCard.addEventListener('click', () => openPopup(popupCreateCard));
 
-
-export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+//Listeners close popups on button and empty space
+popups.forEach((popup) => {
+    popup.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('popup__opened')) {
+            closePopup(popup)
+        }
+        if (evt.target.classList.contains('popup__close')) {
+            closePopup(popup)
+        }
+    })
+})
