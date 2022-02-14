@@ -4,7 +4,7 @@ export function enableValidation(config) {
     form.addEventListener('input', event => handleFormInput(event, config));
 }
 
-function handleFormSubmit(event, config) {
+export function handleFormSubmit(event, config) {
     event.preventDefault();
     const form = event.currentTarget;
     const isValid = form.checkValidity();
@@ -31,7 +31,7 @@ function setFieldError(form, config, input) {
     }
 }
 
-function setSubmitButtonState(form, config) {
+export function setSubmitButtonState(form, config) {
     const button = form.querySelector(config.submitButtonSelector) //
     const isValid = form.checkValidity()
 
@@ -56,7 +56,7 @@ enableValidation({
 
 enableValidation({
     formSelector: '.popup__form[name="insertInfo"]',
-    submitButtonSelector: '.popup__button_create-card',
+    submitButtonSelector: '.popup__button',
     validButtonClass: 'popup_button_valid',
     invalidButtonClass: 'popup_button_invalid',
     inputErrorClass: 'popup__input_type_error',

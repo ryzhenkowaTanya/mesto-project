@@ -1,5 +1,3 @@
-import {formElement} from "./card";
-
 const inputName = document.querySelector('.popup__input_type_name');
 const inputJob = document.querySelector('.popup__input_type_job');
 const profileName = document.querySelector('.profile__name');
@@ -18,8 +16,8 @@ export function editPopup() {
     inputName.value = profileName.textContent;
     inputJob.value = profileJob.textContent;
     openPopup(popupEditProfile);
-}
 
+}
 
 export function handlerProfileSubmit(evt) {
     evt.preventDefault();
