@@ -8,7 +8,7 @@ const popupSignatureImage = document.querySelector('.popup__caption');
 const popupImage = document.querySelector('.popup_type_image');
 const buttonCreateCard = document.querySelector('.profile__button-add');
 const popups = document.querySelectorAll('.popup')
-
+//rtret
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 
