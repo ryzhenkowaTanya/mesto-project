@@ -2,6 +2,7 @@ const inputName = document.querySelector('.popup__input_type_name');
 const inputJob = document.querySelector('.popup__input_type_job');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
+const profileAvatar = document.querySelector('.profile__avatar');
 const popupEditProfile = document.querySelector('.popup_type_edit');
 const popupOpenImage = document.querySelector('.popup__image');
 const popupSignatureImage = document.querySelector('.popup__caption');
@@ -11,6 +12,13 @@ const popups = document.querySelectorAll('.popup')
 
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+
+
+export function updateProfile(name,about,avatar) {
+    profileName.textContent = name;
+    profileJob.textContent = about;
+    profileAvatar.src = avatar
+}
 
 export function editPopup() {
     inputName.value = profileName.textContent;
