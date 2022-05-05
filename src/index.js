@@ -14,7 +14,7 @@ import {buttonOpenPopupProfile} from "./components/modal";
 import {enableValidation} from "./components/validate";
 import {getCards, getUserInfo} from "./components/api";
 
-function responseError(err, msg) {
+export function responseError(err, msg) {
     console.error(msg, err);
 }
 

@@ -1,3 +1,6 @@
+import {updateUserProfile} from "./api";
+import {responseError} from "../index";
+
 const inputName = document.querySelector('.popup__input_type_name');
 const inputJob = document.querySelector('.popup__input_type_job');
 const profileName = document.querySelector('.profile__name');
@@ -15,16 +18,16 @@ export const buttonOpenPopupProfile = document.querySelector('.profile__button-e
 
 
 export function setProfile(name, about, avatar) {
-    setUserInfo(name,about)
+    setUserInfo(name, about)
     setUserAvatar(avatar)
 }
 
-export function setUserInfo(name,about) {
+export function setUserInfo(name, about) {
     profileName.textContent = name;
     profileJob.textContent = about;
 }
 
-export function setUserAvatar(avatar){
+export function setUserAvatar(avatar) {
     profileAvatar.src = avatar
 }
 
@@ -38,9 +41,10 @@ export function editPopup() {
 
 export function handlerProfileSubmit(evt) {
     evt.preventDefault();
-    profileName.textContent = inputName.value;
-    profileJob.textContent = inputJob.value;
-    closePopup(popupEditProfile);
+    updateUserProfile(inputName.value, inputJob.value)
+        .then(res => setUserInfo(res.name, res.about))
+        .catch(err => responseError(err, 'updateUserProfile'))
+        .finally(() => closePopup(popupEditProfile));
 }
 
 export function handlePreviewImages(card) {
