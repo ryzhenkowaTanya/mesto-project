@@ -10,7 +10,6 @@ export const nameInputCard = document.querySelector('.popup__input_type_name-car
 export const linkInputCard = document.querySelector('.popup__input_type_link');
 const cardList = document.querySelector('.cards__list');
 
-
 export const initialCards = [
     {
         name: 'Pulau Ubin',
