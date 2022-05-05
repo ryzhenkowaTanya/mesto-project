@@ -87,8 +87,6 @@ export function addCartInList(card) {
     cardList.prepend(templateElement)
 }
 
-initialCards.forEach(addCartInList);
-
 //submit
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);

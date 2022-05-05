@@ -14,11 +14,20 @@ export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 
 
-export function updateProfile(name,about,avatar) {
+export function setProfile(name, about, avatar) {
+    setUserInfo(name,about)
+    setUserAvatar(avatar)
+}
+
+export function setUserInfo(name,about) {
     profileName.textContent = name;
     profileJob.textContent = about;
+}
+
+export function setUserAvatar(avatar){
     profileAvatar.src = avatar
 }
+
 
 export function editPopup() {
     inputName.value = profileName.textContent;
