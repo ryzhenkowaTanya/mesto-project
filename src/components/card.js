@@ -2,6 +2,8 @@ import {buttonOpenPopupProfile, closePopup, editPopup} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
+import {addCard} from "./api";
+import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
 export const cardForm = document.querySelector('.popup__form_type_card');
@@ -83,8 +85,10 @@ function handleDeleteCard(evt) {
 
 //добавление карточки
 export function addCartInList(card) {
-    const templateElement = createCard(card);
-    cardList.prepend(templateElement)
+    addCard(card.name, card.link)
+        .then(res =>
+            cardList.prepend(createCard(res))
+        ).catch(err => responseError(err, 'addCard'));
 }
 
 //submit
