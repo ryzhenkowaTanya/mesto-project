@@ -50,4 +50,39 @@ export const addCard = (name, link) => {
 }
 
 
+export const deleteCard = (cardId) => {
+    return fetch(`${config.baseUrl}cards/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers
+    })
+        .then(toJson);
+}
+
+export const setLike = (cardId) => {
+    return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: config.headers
+    })
+        .then(toJson);
+}
+
+export const removeLike = (cardId) => {
+    return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers
+    })
+        .then(toJson);
+}
+
+
+export const updateUserAvatar = (url) => {
+    return fetch(`${config.baseUrl}users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({avatar: url})
+    })
+        .then(toJson);
+}
+
+
 
