@@ -57,6 +57,14 @@ export function handlerCardSubmit(evt) {
 
 //создание новой карточки
 export function createCard(card) {
+    let likes = null;
+
+    if (card.likes == null ) {
+        likes = 0;
+    } else {
+        likes = card.likes.length;
+    }
+    console.log(`likes = ${likes}`) // todo 7. Отображение количества лайков карточки
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
     const templateCardImage = templateElement.querySelector('.card__image');
