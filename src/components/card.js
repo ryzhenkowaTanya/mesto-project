@@ -56,7 +56,7 @@ export function handlerCardSubmit(evt) {
 }
 
 //создание новой карточки
-export function createCard(card) {
+export function createCard(card, userId) {
     let likes = null;
 
     if (card.likes == null ) {
@@ -64,7 +64,11 @@ export function createCard(card) {
     } else {
         likes = card.likes.length;
     }
+    let isOwner = card.owner._id === userId
     console.log(`likes = ${likes}`) // todo 7. Отображение количества лайков карточки
+    console.log(`isOwner = ${isOwner}`) // todo 8. Удаление карточки part 1
+    console.log(`cardId  = ${card._id}`) // todo 8. Удаление карточки part 2
+
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
     const templateCardImage = templateElement.querySelector('.card__image');
@@ -92,10 +96,10 @@ function handleDeleteCard(evt) {
 }
 
 //добавление карточки
-export function addCartInList(card) {
+export function addCartInList(card,userId) {
     addCard(card.name, card.link)
         .then(res =>
-            cardList.prepend(createCard(res))
+            cardList.prepend(createCard(res,userId))
         ).catch(err => responseError(err, 'addCard'));
 }
 

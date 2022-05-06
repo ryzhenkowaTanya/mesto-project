@@ -24,8 +24,10 @@ getUserInfo()
     ).catch(err => responseError(err, 'getUserInfo'));
 
 
-getCards().then(res =>
-    res.forEach(addCartInList)
-).catch(err => responseError(err, 'getCards'));
+Promise
+    .all([getCards(), getUserInfo()])
+    .then(([cards, userInfo]) => {
+        cards.forEach(card => addCartInList(card,userInfo._id))
+    } ).catch(err => responseError(err, 'getCards'));
 
 
