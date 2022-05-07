@@ -50,3 +50,4 @@ module.exports = {
         new MiniCssExtractPlugin() // подключение плагина для объединения файлов
     ]
 };
+

@@ -12,7 +12,9 @@
     </header>
     <main class="content">
         <section class="profile">
+            <div class="profile__avatar-button">
             <img src="<%=require('./images/avatar.jpg')%>" alt="Фотография пользователя" class="profile__avatar">
+            </div>
             <div class="profile__info">
                 <div class="profile__item">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -87,6 +89,25 @@
         <img class="popup__image" alt="Фотография пейзажа" src="">
         <figcaption class="popup__caption"></figcaption>
     </figure>
+</div>
+<div class="popup popup_name_update-avatar">
+    <div class="popup__content">
+    <form name="updateAvatar" class="popup__form popup__form_type_update-avatar form" novalidate>
+        <button type="button" aria-label="Кнопка закрытия формы редактирования попапа" class="popup__close popup__close_type_update-avatar button-hover></button>
+        <h2 class="popup__heading">Редактировать аватар</h2>
+        <input
+                    type="url"
+                    class="form-input popup__input popup__input_name_avatar-link"
+                    name="avatar-link"
+                    placeholder="https://somewebsite.com/someimage.jpg"
+                    required>
+            <span id="url-input-error" class="link-input-error form__input-error"></span>
+            <button disabled aria-label="Кнопка сохранения" class="popup__button popup__button_update-avatar"
+                    type="submit">
+                Сохранить
+            </button>
+    </form>
+    </div>
 </div>
 <template id="card-template" class="card-template">
     <li class="card" id="card">
