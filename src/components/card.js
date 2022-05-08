@@ -75,8 +75,8 @@ export function createCard(card, userId) {
     const btnLike = templateElement.querySelector('.card__button-like')
     const cardDelete = templateElement.querySelector('.card__button-delete')
 
-    const cardLikeCounter = document.querySelector('.card__like-counter')
-
+    const cardLikeCounter = templateElement.querySelector('.card__like-counter')
+    cardLikeCounter.textContent = likes
     templateCardImage.setAttribute('src', card.link);
     btnLike.addEventListener('click', handleLikeCard);
     cardDelete.addEventListener('click', handleDeleteCard);
