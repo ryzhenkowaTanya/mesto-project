@@ -73,8 +73,7 @@ export function createCard(card, userId) {
     });
 
     if (isOwner) {
-        //todo ### 8. Удаление карточки
-        //todo  нужно добавлять класс card__button-delete_active
+        cardDelete.classList.add("card__button-delete_active")
         cardDelete.addEventListener('click', (evt) => {
             handleDeleteCard(evt, cardId);
         })
