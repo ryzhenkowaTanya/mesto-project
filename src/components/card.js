@@ -74,6 +74,9 @@ export function createCard(card, userId) {
     const templateCardImage = templateElement.querySelector('.card__image');
     const btnLike = templateElement.querySelector('.card__button-like')
     const cardDelete = templateElement.querySelector('.card__button-delete')
+
+    const cardLikeCounter = document.querySelector('.card__like-counter')
+
     templateCardImage.setAttribute('src', card.link);
     btnLike.addEventListener('click', handleLikeCard);
     cardDelete.addEventListener('click', handleDeleteCard);
@@ -107,3 +110,5 @@ export function addCartInList(card,userId) {
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 cardForm.addEventListener('submit', handlerCardSubmit);
+
+//счетчик лайков

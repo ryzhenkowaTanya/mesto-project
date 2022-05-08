@@ -62,5 +62,13 @@ enableValidation({
     inputErrorClass: 'popup__input_type_error',
 })
 
+enableValidation({
+    formSelector: '.popup__form[name="updateAvatar"]',
+    submitButtonSelector: '.popup__button',
+    validButtonClass: 'popup_button_valid',
+    invalidButtonClass: 'popup_button_invalid',
+    inputErrorClass: 'popup__input_type_error',
+})
+
 
 
