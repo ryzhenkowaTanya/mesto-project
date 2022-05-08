@@ -1,8 +1,8 @@
-import {buttonOpenPopupProfile, closePopup, editPopup} from "./modal";
+import {buttonOpenPopupProfile, closePopup, editPopup, setProfile} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
-import {addCard, deleteCard, removeLike, setLike} from "./api";
+import {addCard, deleteCard, getUserInfo, removeLike, setLike} from "./api";
 import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
@@ -44,13 +44,15 @@ export const initialCards = [
         alt: ''
     }];
 
-export function handlerCardSubmit(evt) {
+export function handlerCardSubmit(evt, userId) {
     evt.preventDefault();
     const card = {
-        name: nameInputCard.value,
-        link: linkInputCard.value
+        name: nameInputCard.value, // todo fix empty
+        link: linkInputCard.value // todo fix empty
     }
-    addCartInList(card)
+    console.log("card")
+    console.log(card)
+    addCartInList(card, userId)
     cardForm.reset();
     closePopup(popupCreateCard);
 }
@@ -126,6 +128,13 @@ export function addCartInList(card, userId) {
 //submit
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
-cardForm.addEventListener('submit', handlerCardSubmit);
+
+getUserInfo()
+    .then(userInfo =>
+        cardForm.addEventListener('submit', (evt) => {
+            handlerCardSubmit(evt, userInfo._id)
+        })
+    ).catch(err => responseError(err, 'getUserInfo'))
+
 
 //счетчик лайков
