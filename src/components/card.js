@@ -2,7 +2,7 @@ import {buttonOpenPopupProfile, closePopup, editPopup} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
-import {addCard, removeLike, setLike} from "./api";
+import {addCard, deleteCard, removeLike, setLike} from "./api";
 import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
@@ -58,8 +58,6 @@ export function handlerCardSubmit(evt) {
 //создание новой карточки
 export function createCard(card, userId) {
     let isOwner = card.owner._id === userId
-    console.log(`isOwner = ${isOwner}`) // todo 8. Удаление карточки part 1
-    console.log(`cardId  = ${card._id}`) // todo 8. Удаление карточки part 2
     let cardId = card._id;
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
@@ -73,9 +71,14 @@ export function createCard(card, userId) {
     btnLike.addEventListener('click', (evt) => {
         handleLikeCard(evt, cardId, cardLikeCounter)
     });
-    cardDelete.addEventListener('click', (evt) => {
-        handleDeleteCard(evt, cardId)
-    });
+
+    if (isOwner) {
+        //todo ### 8. Удаление карточки
+        //todo  нужно добавлять класс card__button-delete_active
+        cardDelete.addEventListener('click', (evt) => {
+            handleDeleteCard(evt, cardId);
+        })
+    }
     templateCardImage.alt = card.name;
     templateCardImage.addEventListener('click', () => {
         handlePreviewImages(card)
@@ -108,9 +111,9 @@ function handleLikeCard(evt, cardId, cardLikeCounter) {
 
 // удаление карточки
 function handleDeleteCard(evt, cardId) {
-    console.log("handleDeleteCard") //todo
-    console.log(cardId) //todo
-    evt.target.closest('.card').remove()
+    deleteCard(cardId)
+        .catch(err => responseError(err, 'deleteCard'))
+        .finally(() => evt.target.closest('.card').remove());
 }
 
 //добавление карточки
