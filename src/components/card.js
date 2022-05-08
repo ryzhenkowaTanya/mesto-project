@@ -2,7 +2,7 @@ import {buttonOpenPopupProfile, closePopup, editPopup} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
-import {addCard} from "./api";
+import {addCard, removeLike, setLike} from "./api";
 import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
@@ -57,18 +57,10 @@ export function handlerCardSubmit(evt) {
 
 //создание новой карточки
 export function createCard(card, userId) {
-    let likes = null;
-
-    if (card.likes == null ) {
-        likes = 0;
-    } else {
-        likes = card.likes.length;
-    }
     let isOwner = card.owner._id === userId
-    console.log(`likes = ${likes}`) // todo 7. Отображение количества лайков карточки
     console.log(`isOwner = ${isOwner}`) // todo 8. Удаление карточки part 1
     console.log(`cardId  = ${card._id}`) // todo 8. Удаление карточки part 2
-
+    let cardId = card._id;
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
     const templateCardImage = templateElement.querySelector('.card__image');
@@ -76,10 +68,14 @@ export function createCard(card, userId) {
     const cardDelete = templateElement.querySelector('.card__button-delete')
 
     const cardLikeCounter = templateElement.querySelector('.card__like-counter')
-    cardLikeCounter.textContent = likes
+    cardLikeCounter.textContent = card.likes.length
     templateCardImage.setAttribute('src', card.link);
-    btnLike.addEventListener('click', handleLikeCard);
-    cardDelete.addEventListener('click', handleDeleteCard);
+    btnLike.addEventListener('click', (evt) => {
+        handleLikeCard(evt, cardId, cardLikeCounter)
+    });
+    cardDelete.addEventListener('click', (evt) => {
+        handleDeleteCard(evt, cardId)
+    });
     templateCardImage.alt = card.name;
     templateCardImage.addEventListener('click', () => {
         handlePreviewImages(card)
@@ -89,20 +85,39 @@ export function createCard(card, userId) {
 }
 
 //реализация лайка
-function handleLikeCard(evt) {
-    evt.target.classList.toggle('like-active')
+function handleLikeCard(evt, cardId, cardLikeCounter) {
+    if (evt.target.classList.contains('like-active')) {
+        removeLike(cardId)
+            .then(card => {
+                    cardLikeCounter.textContent = card.likes.length;
+                }
+            ).catch(err => responseError(err, 'removeLike'))
+            .finally(() => evt.target.classList.toggle('like-active'));
+    } else {
+        setLike(cardId)
+            .then(card => {
+                    cardLikeCounter.textContent = card.likes.length;
+                }
+            ).catch(err => responseError(err, 'setLike'))
+            .finally(() => evt.target.classList.toggle('like-active'));
+
+    }
+
+
 }
 
 // удаление карточки
-function handleDeleteCard(evt) {
+function handleDeleteCard(evt, cardId) {
+    console.log("handleDeleteCard") //todo
+    console.log(cardId) //todo
     evt.target.closest('.card').remove()
 }
 
 //добавление карточки
-export function addCartInList(card,userId) {
+export function addCartInList(card, userId) {
     addCard(card.name, card.link)
         .then(res =>
-            cardList.prepend(createCard(res,userId))
+            cardList.prepend(createCard(res, userId))
         ).catch(err => responseError(err, 'addCard'));
 }
 
