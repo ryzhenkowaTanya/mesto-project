@@ -69,6 +69,9 @@ export function createCard(card, userId) {
     const cardLikeCounter = templateElement.querySelector('.card__like-counter')
     setTextContent(cardLikeCounter, card.likes.length)
     templateCardImage.setAttribute('src', card.link);
+    if (card.likes.some(user => user._id === userId)) {
+        btnLike.classList.add('like-active');
+    }
     btnLike.addEventListener('click', (evt) => {
         handleLikeCard(evt, cardId, cardLikeCounter)
     });
@@ -106,10 +109,14 @@ function handleLikeCard(evt, cardId, cardLikeCounter) {
     }
 }
 
+function removeCard(evt) {
+    evt.target.closest('.card').remove()
+}
+
 // удаление карточки
 function handleDeleteCard(evt, cardId) {
     deleteCard(cardId).then(() => {
-        evt.target.closest('.card').remove()
+        removeCard(evt)
     })
         .catch(err => responseError(err, 'deleteCard'))
 }
