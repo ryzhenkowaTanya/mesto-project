@@ -110,8 +110,7 @@ function handleLikeCard(evt, cardId, cardLikeCounter) {
 function handleDeleteCard(evt, cardId) {
     deleteCard(cardId).then(() => {
         evt.target.closest('.card').remove()
-    })
-        .catch(err => responseError(err, 'deleteCard'))
+    }).catch(err => responseError(err, 'deleteCard'))
 }
 
 //добавление карточки
