@@ -1,14 +1,11 @@
-import {openPopup} from "./modal";
-
-import {
-    createCard,
-    handlerCardSubmit,
-    handlerProfileSubmit,
-    handlerUpdateAvatarSubmit,
-    inputJob,
-    inputName, popupEditProfile
-} from "../index";
-
+import {closePopup} from "./modal";
+// import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
+import { editPopup, popupUpdateAvatar, setProfile} from "../index";
+import {handlePreviewImages} from "../index";
+import {handlerProfileSubmit} from "../index";
+import {popupCreateCard} from "../index";
+import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
+import {responseError} from "./utils";
 
 export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
@@ -21,39 +18,110 @@ export const linkInputCard = document.querySelector('.popup__input_type_link');
 export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
 export const loading = document.getElementById('loading')
 
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-const profileAvatar = document.querySelector('.profile__avatar');
 const cardList = document.querySelector('.cards__list');
 
-export function setProfile(name, about, avatar) {
-    setUserInfo(name, about)
-    setUserAvatar(avatar)
-}
 
-export function setUserInfo(name, about) {
-    profileName.textContent = name;
-    profileJob.textContent = about;
-}
+let userId = null
 
-export function setUserAvatar(avatar) {
-    profileAvatar.src = avatar
-}
+getUserInfo()
+    .then((userInfo) => {
+        userId = userInfo._id
+    }).catch(err => responseError(err, 'getUserInfo'));
 
-
-export function editPopup() {
-    inputName.value = profileName.textContent;
-    inputJob.value = profileJob.textContent;
-    openPopup(popupEditProfile);
-
-}
-
-export function setTextContent(element, value) {
+function setTextContent(element, value) {
     element.textContent = value
 }
 
-export function removeCard(evt) {
+export function handlerCardSubmit(evt) {
+    evt.preventDefault();
+    addCard(nameInputCard.value, linkInputCard.value)
+        .then((card) => {
+                addCartInList(card, userId);
+                cardForm.reset();
+                closePopup(popupCreateCard);
+            }
+        ).catch(err => responseError(err, 'addCard'))
+}
+
+export function handlerUpdateAvatarSubmit(evt) {
+    loading.textContent = "Сохранение..."
+    evt.preventDefault();
+    updateUserAvatar(linkNameAvatar.value)
+        .then((res) => {
+                setProfile(res.name, res.about, res.avatar);
+                avatarForm.reset();
+                closePopup(popupUpdateAvatar);
+
+            }
+        ).catch(err => responseError(err, 'updateUserAvatar'))
+        .finally(() => {
+            loading.textContent = "Сохранить";
+        })
+}
+
+//создание новой карточки
+export function createCard(card, userId) {
+    const isOwner = card.owner._id === userId
+    const cardId = card._id;
+    const templateElement = templateCards.cloneNode(true);
+    templateElement.querySelector('.card__title').textContent = card.name;
+    const templateCardImage = templateElement.querySelector('.card__image');
+    const btnLike = templateElement.querySelector('.card__button-like')
+    const cardDelete = templateElement.querySelector('.card__button-delete')
+
+    const cardLikeCounter = templateElement.querySelector('.card__like-counter')
+    setTextContent(cardLikeCounter, card.likes.length)
+    templateCardImage.setAttribute('src', card.link);
+    if (card.likes.some(user => user._id === userId)) {
+        btnLike.classList.add('like-active');
+    }
+    btnLike.addEventListener('click', (evt) => {
+        handleLikeCard(evt, cardId, cardLikeCounter)
+    });
+
+    if (isOwner) {
+        cardDelete.classList.add("card__button-delete_active")
+        cardDelete.addEventListener('click', (evt) => {
+            handleDeleteCard(evt, cardId);
+        })
+    }
+    templateCardImage.alt = card.name;
+    templateCardImage.addEventListener('click', () => {
+        handlePreviewImages(card)
+    });
+
+    return templateElement
+}
+
+//реализация лайка
+function handleLikeCard(evt, cardId, cardLikeCounter) {
+    if (evt.target.classList.contains('like-active')) {
+        removeLike(cardId)
+            .then(card => {
+                    setTextContent(cardLikeCounter, card.likes.length);
+                    evt.target.classList.toggle('like-active');
+                }
+            ).catch(err => responseError(err, 'removeLike'))
+    } else {
+        setLike(cardId)
+            .then(card => {
+                    setTextContent(cardLikeCounter, card.likes.length);
+                    evt.target.classList.toggle('like-active');
+                }
+            ).catch(err => responseError(err, 'setLike'))
+    }
+}
+
+function removeCard(evt) {
     evt.target.closest('.card').remove()
+}
+
+// удаление карточки
+function handleDeleteCard(evt, cardId) {
+    deleteCard(cardId).then(() => {
+        removeCard(evt)
+    })
+        .catch(err => responseError(err, 'deleteCard'))
 }
 
 //добавление карточки
