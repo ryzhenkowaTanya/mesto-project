@@ -1,15 +1,19 @@
-import {buttonOpenPopupProfile, closePopup, editPopup, setProfile} from "./modal";
+import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
-import {addCard, deleteCard, getUserInfo, removeLike, setLike} from "./api";
+import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
 import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
 export const cardForm = document.querySelector('.popup__form_type_card');
+export const updateAvatarForm = document.querySelector('.popup__form_type_update-avatar');
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 export const nameInputCard = document.querySelector('.popup__input_type_name-card');
 export const linkInputCard = document.querySelector('.popup__input_type_link');
+export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
+export const loading = document.getElementById('loading')
+
 const cardList = document.querySelector('.cards__list');
 
 export const initialCards = [
@@ -54,6 +58,19 @@ export function handlerCardSubmit(evt) {
         ).catch(err => responseError(err, 'addCard'))
     cardForm.reset();
     closePopup(popupCreateCard);
+}
+
+export function handlerUpdateAvatarSubmit(evt) {
+    loading.textContent = "Сохранить..."
+    evt.preventDefault();
+    updateUserAvatar(linkNameAvatar.value)
+        .then((res) => {
+                setProfile(res.name, res.about, res.avatar)
+            }
+        ).catch(err => responseError(err, 'updateUserAvatar'))
+    updateAvatarForm.reset();
+    closePopup(popupUpdateAvatar);
+    loading.textContent = "Сохранить"
 }
 
 //создание новой карточки
@@ -126,6 +143,7 @@ formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 
 cardForm.addEventListener('submit', handlerCardSubmit);
+updateAvatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
 
 
 //счетчик лайков

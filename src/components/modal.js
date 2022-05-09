@@ -16,7 +16,7 @@ const buttonUpdateAvatar = document.querySelector(".profile__avatar-button")
 
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
-const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar')
+export const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar')
 
 export function setProfile(name, about, avatar) {
     setUserInfo(name, about)
