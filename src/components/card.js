@@ -1,6 +1,6 @@
 import {closePopup} from "./modal";
 // import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
-import { editPopup, popupUpdateAvatar, setProfile} from "../index";
+import {editPopup, handlerCardSubmit, handlerUpdateAvatarSubmit, popupUpdateAvatar, setProfile} from "../index";
 import {handlePreviewImages} from "../index";
 import {handlerProfileSubmit} from "../index";
 import {popupCreateCard} from "../index";
@@ -13,50 +13,13 @@ export const cardForm = document.querySelector('.popup__form_type_card');
 export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
 
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
-export const nameInputCard = document.querySelector('.popup__input_type_name-card');
-export const linkInputCard = document.querySelector('.popup__input_type_link');
-export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
-export const loading = document.getElementById('loading')
 
 const cardList = document.querySelector('.cards__list');
 
 
-let userId = null
-
-getUserInfo()
-    .then((userInfo) => {
-        userId = userInfo._id
-    }).catch(err => responseError(err, 'getUserInfo'));
 
 function setTextContent(element, value) {
     element.textContent = value
-}
-
-export function handlerCardSubmit(evt) {
-    evt.preventDefault();
-    addCard(nameInputCard.value, linkInputCard.value)
-        .then((card) => {
-                addCartInList(card, userId);
-                cardForm.reset();
-                closePopup(popupCreateCard);
-            }
-        ).catch(err => responseError(err, 'addCard'))
-}
-
-export function handlerUpdateAvatarSubmit(evt) {
-    loading.textContent = "Сохранение..."
-    evt.preventDefault();
-    updateUserAvatar(linkNameAvatar.value)
-        .then((res) => {
-                setProfile(res.name, res.about, res.avatar);
-                avatarForm.reset();
-                closePopup(popupUpdateAvatar);
-
-            }
-        ).catch(err => responseError(err, 'updateUserAvatar'))
-        .finally(() => {
-            loading.textContent = "Сохранить";
-        })
 }
 
 //создание новой карточки

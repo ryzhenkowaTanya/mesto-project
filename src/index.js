@@ -3,7 +3,7 @@ import './styles/index.css';
 
 //импорт из файла card.js
 import './components/card'
-import {addCartInList} from "./components/card";
+import {addCartInList, avatarForm, cardForm, userInfoForm} from "./components/card";
 
 //modal
 // import {handlerProfileSubmit, setProfile} from "./components/modal";
@@ -12,7 +12,7 @@ import {addCartInList} from "./components/card";
 
 //импорт из файла validate.js
 import {enableValidation} from "./components/validate";
-import {getCards, getUserInfo, updateUserProfile} from "./components/api";
+import {addCard, getCards, getUserInfo, updateUserAvatar, updateUserProfile} from "./components/api";
 import {responseError} from "./components/utils";
 import {closePopup, openPopup} from "./components/modal";
 
@@ -39,6 +39,48 @@ const buttonUpdateAvatar = document.querySelector(".profile__avatar-button")
 
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar')
+
+export const nameInputCard = document.querySelector('.popup__input_type_name-card');
+export const linkInputCard = document.querySelector('.popup__input_type_link');
+
+export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
+export const loading = document.getElementById('loading')
+
+let userId = null
+
+getUserInfo()
+    .then((userInfo) => {
+        userId = userInfo._id
+    }).catch(err => responseError(err, 'getUserInfo'));
+
+
+export function handlerCardSubmit(evt) {
+    evt.preventDefault();
+    addCard(nameInputCard.value, linkInputCard.value)
+        .then((card) => {
+                addCartInList(card, userId);
+                cardForm.reset();
+                closePopup(popupCreateCard);
+            }
+        ).catch(err => responseError(err, 'addCard'))
+}
+
+
+export function handlerUpdateAvatarSubmit(evt) {
+    loading.textContent = "Сохранение..."
+    evt.preventDefault();
+    updateUserAvatar(linkNameAvatar.value)
+        .then((res) => {
+                setProfile(res.name, res.about, res.avatar);
+                avatarForm.reset();
+                closePopup(popupUpdateAvatar);
+
+            }
+        ).catch(err => responseError(err, 'updateUserAvatar'))
+        .finally(() => {
+            loading.textContent = "Сохранить";
+        })
+}
 
 export function setProfile(name, about, avatar) {
     setUserInfo(name, about)
