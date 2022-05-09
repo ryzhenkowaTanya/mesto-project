@@ -1,10 +1,7 @@
-import {closePopup} from "./modal";
-// import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
-import {editPopup, handlerCardSubmit, handlerUpdateAvatarSubmit, popupUpdateAvatar, setProfile} from "../index";
+import {editPopup, handlerCardSubmit, handlerUpdateAvatarSubmit} from "../index";
 import {handlePreviewImages} from "../index";
 import {handlerProfileSubmit} from "../index";
-import {popupCreateCard} from "../index";
-import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
+import {deleteCard, removeLike, setLike} from "./api";
 import {responseError} from "./utils";
 
 export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
@@ -15,7 +12,6 @@ export const avatarForm = document.querySelector('.popup__form_type_update-avata
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 
 const cardList = document.querySelector('.cards__list');
-
 
 
 function setTextContent(element, value) {

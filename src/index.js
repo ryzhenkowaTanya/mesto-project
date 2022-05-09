@@ -3,12 +3,7 @@ import './styles/index.css';
 
 //импорт из файла card.js
 import './components/card'
-import {addCartInList, avatarForm, cardForm, userInfoForm} from "./components/card";
-
-//modal
-// import {handlerProfileSubmit, setProfile} from "./components/modal";
-// import {editPopup} from "./components/modal";
-// import {buttonOpenPopupProfile} from "./components/modal";
+import {addCartInList, avatarForm, cardForm} from "./components/card";
 
 //импорт из файла validate.js
 import {enableValidation} from "./components/validate";
