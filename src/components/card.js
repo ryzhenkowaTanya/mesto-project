@@ -119,10 +119,7 @@ function handleDeleteCard(evt, cardId) {
 
 //добавление карточки
 export function addCartInList(card, userId) {
-    addCard(card.name, card.link)
-        .then(res =>
-            cardList.prepend(createCard(res, userId))
-        ).catch(err => responseError(err, 'addCard'));
+            cardList.prepend(createCard(card, userId))
 }
 
 //submit
