@@ -44,15 +44,14 @@ export const initialCards = [
         alt: ''
     }];
 
-export function handlerCardSubmit(evt, userId) {
+export function handlerCardSubmit(evt) {
     evt.preventDefault();
-    const card = {
-        name: nameInputCard.value, // todo fix empty
-        link: linkInputCard.value // todo fix empty
-    }
-    console.log("card")
-    console.log(card)
-    addCartInList(card, userId)
+    Promise
+        .all([addCard(nameInputCard.value, linkInputCard.value), getUserInfo()])
+        .then(([card, userInfo]) => {
+                addCartInList(card, userInfo._id)
+            }
+        ).catch(err => responseError(err, 'addCard'))
     cardForm.reset();
     closePopup(popupCreateCard);
 }
@@ -119,19 +118,14 @@ function handleDeleteCard(evt, cardId) {
 
 //добавление карточки
 export function addCartInList(card, userId) {
-            cardList.prepend(createCard(card, userId))
+    cardList.prepend(createCard(card, userId))
 }
 
 //submit
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 
-getUserInfo()
-    .then(userInfo =>
-        cardForm.addEventListener('submit', (evt) => {
-            handlerCardSubmit(evt, userInfo._id)
-        })
-    ).catch(err => responseError(err, 'getUserInfo'))
+cardForm.addEventListener('submit', handlerCardSubmit);
 
 
 //счетчик лайков
