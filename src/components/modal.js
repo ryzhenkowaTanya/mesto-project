@@ -1,5 +1,5 @@
 import {updateUserProfile} from "./api";
-import {responseError} from "../index";
+import {responseError} from "./utils";
 
 const inputName = document.querySelector('.popup__input_type_name');
 const inputJob = document.querySelector('.popup__input_type_job');
@@ -43,9 +43,11 @@ export function editPopup() {
 export function handlerProfileSubmit(evt) {
     evt.preventDefault();
     updateUserProfile(inputName.value, inputJob.value)
-        .then(res => setUserInfo(res.name, res.about))
+        .then(res => {
+            setUserInfo(res.name, res.about);
+            closePopup(popupEditProfile);
+        })
         .catch(err => responseError(err, 'updateUserProfile'))
-        .finally(() => closePopup(popupEditProfile));
 }
 
 export function handlePreviewImages(card) {

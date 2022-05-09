@@ -13,10 +13,7 @@ import {buttonOpenPopupProfile} from "./components/modal";
 //импорт из файла validate.js
 import {enableValidation} from "./components/validate";
 import {getCards, getUserInfo} from "./components/api";
-
-export function responseError(err, msg) {
-    console.error(msg, err);
-}
+import {responseError} from "./components/utils";
 
 getUserInfo()
     .then(res =>

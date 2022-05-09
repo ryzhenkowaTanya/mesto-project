@@ -6,7 +6,7 @@ const config = {
     }
 }
 
-export const toJson = (res) => {
+export const _getResponseData = (res) => {
     if (res.ok) {
         return res.json();
     }
@@ -21,14 +21,14 @@ export const getUserInfo = () => {
     return fetch(`${config.baseUrl}users/me`, {
         headers: config.headers
     })
-        .then(toJson)
+        .then(_getResponseData)
 }
 
 export const getCards = () => {
     return fetch(`${config.baseUrl}cards`, {
         headers: config.headers
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 export const updateUserProfile = (name, about) => {
@@ -37,7 +37,7 @@ export const updateUserProfile = (name, about) => {
         headers: config.headers,
         body: JSON.stringify({name, about})
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 export const addCard = (name, link) => {
@@ -46,7 +46,7 @@ export const addCard = (name, link) => {
         headers: config.headers,
         body: JSON.stringify({name, link})
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 
@@ -55,7 +55,7 @@ export const deleteCard = (cardId) => {
         method: 'DELETE',
         headers: config.headers
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 export const setLike = (cardId) => {
@@ -63,7 +63,7 @@ export const setLike = (cardId) => {
         method: 'PUT',
         headers: config.headers
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 export const removeLike = (cardId) => {
@@ -71,7 +71,7 @@ export const removeLike = (cardId) => {
         method: 'DELETE',
         headers: config.headers
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 
@@ -81,7 +81,7 @@ export const updateUserAvatar = (url) => {
         headers: config.headers,
         body: JSON.stringify({avatar: url})
     })
-        .then(toJson);
+        .then(_getResponseData);
 }
 
 

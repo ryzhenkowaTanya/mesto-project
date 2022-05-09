@@ -1,3 +1,11 @@
+const validationConfig = {
+    submitButtonSelector: '.popup__button',
+    validButtonClass: 'popup_button_valid',
+    invalidButtonClass: 'popup_button_invalid',
+    inputErrorClass: 'popup__input_type_error'
+}
+
+
 export function enableValidation(config) {
     const form = document.querySelector(config.formSelector);
     form.addEventListener('submit', event => handleFormSubmit(event, config));
@@ -46,29 +54,14 @@ export function setSubmitButtonState(form, config) {
     }
 }
 
-enableValidation({
-    formSelector: '.popup__form[name="editInfo"]',
-    submitButtonSelector: '.popup__button',
-    validButtonClass: 'popup_button_valid',
-    invalidButtonClass: 'popup_button_invalid',
-    inputErrorClass: 'popup__input_type_error',
-})
+enableValidation(Object.assign({
+    formSelector: '.popup__form[name="editInfo"]'
+}, validationConfig))
 
-enableValidation({
-    formSelector: '.popup__form[name="insertInfo"]',
-    submitButtonSelector: '.popup__button',
-    validButtonClass: 'popup_button_valid',
-    invalidButtonClass: 'popup_button_invalid',
-    inputErrorClass: 'popup__input_type_error',
-})
+enableValidation(Object.assign({
+    formSelector: '.popup__form[name="insertInfo"]'
+}, validationConfig))
 
-enableValidation({
+enableValidation(Object.assign({
     formSelector: '.popup__form[name="updateAvatar"]',
-    submitButtonSelector: '.popup__button',
-    validButtonClass: 'popup_button_valid',
-    invalidButtonClass: 'popup_button_invalid',
-    inputErrorClass: 'popup__input_type_error',
-})
-
-
-
+}, validationConfig))

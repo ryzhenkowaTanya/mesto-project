@@ -3,7 +3,7 @@ import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
 import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
-import {responseError} from "../index";
+import {responseError} from "./utils";
 
 export const formElement = document.querySelector('.popup__form');
 export const cardForm = document.querySelector('.popup__form_type_card');
