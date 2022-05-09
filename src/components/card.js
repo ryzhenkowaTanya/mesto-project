@@ -5,9 +5,10 @@ import {popupCreateCard} from "./modal";
 import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
 import {responseError} from "../index";
 
-export const formElement = document.querySelector('.popup__form');
+export const formElement = document.querySelector('.popup__form_type_edit-info');
 export const cardForm = document.querySelector('.popup__form_type_card');
 export const updateAvatarForm = document.querySelector('.popup__form_type_update-avatar');
+
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 export const nameInputCard = document.querySelector('.popup__input_type_name-card');
 export const linkInputCard = document.querySelector('.popup__input_type_link');
