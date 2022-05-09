@@ -61,7 +61,7 @@ export function handlerCardSubmit(evt) {
 }
 
 export function handlerUpdateAvatarSubmit(evt) {
-    loading.textContent = "Сохранить..."
+    loading.textContent = "Сохранение..."
     evt.preventDefault();
     updateUserAvatar(linkNameAvatar.value)
         .then((res) => {
