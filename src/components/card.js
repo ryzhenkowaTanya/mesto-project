@@ -1,13 +1,19 @@
-import {buttonOpenPopupProfile, closePopup, editPopup} from "./modal";
+import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
 import {handlePreviewImages} from "./modal";
 import {handlerProfileSubmit} from "./modal";
 import {popupCreateCard} from "./modal";
+import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
+import {responseError} from "../index";
 
 export const formElement = document.querySelector('.popup__form');
 export const cardForm = document.querySelector('.popup__form_type_card');
+export const updateAvatarForm = document.querySelector('.popup__form_type_update-avatar');
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 export const nameInputCard = document.querySelector('.popup__input_type_name-card');
 export const linkInputCard = document.querySelector('.popup__input_type_link');
+export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
+export const loading = document.getElementById('loading')
+
 const cardList = document.querySelector('.cards__list');
 
 export const initialCards = [
@@ -44,25 +50,52 @@ export const initialCards = [
 
 export function handlerCardSubmit(evt) {
     evt.preventDefault();
-    const card = {
-        name: nameInputCard.value,
-        link: linkInputCard.value
-    }
-    addCartInList(card)
+    Promise
+        .all([addCard(nameInputCard.value, linkInputCard.value), getUserInfo()])
+        .then(([card, userInfo]) => {
+                addCartInList(card, userInfo._id)
+            }
+        ).catch(err => responseError(err, 'addCard'))
     cardForm.reset();
     closePopup(popupCreateCard);
 }
 
+export function handlerUpdateAvatarSubmit(evt) {
+    loading.textContent = "Сохранение..."
+    evt.preventDefault();
+    updateUserAvatar(linkNameAvatar.value)
+        .then((res) => {
+                setProfile(res.name, res.about, res.avatar)
+            }
+        ).catch(err => responseError(err, 'updateUserAvatar'))
+    updateAvatarForm.reset();
+    closePopup(popupUpdateAvatar);
+    loading.textContent = "Сохранить"
+}
+
 //создание новой карточки
-export function createCard(card) {
+export function createCard(card, userId) {
+    let isOwner = card.owner._id === userId
+    let cardId = card._id;
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
     const templateCardImage = templateElement.querySelector('.card__image');
     const btnLike = templateElement.querySelector('.card__button-like')
     const cardDelete = templateElement.querySelector('.card__button-delete')
+
+    const cardLikeCounter = templateElement.querySelector('.card__like-counter')
+    cardLikeCounter.textContent = card.likes.length
     templateCardImage.setAttribute('src', card.link);
-    btnLike.addEventListener('click', handleLikeCard);
-    cardDelete.addEventListener('click', handleDeleteCard);
+    btnLike.addEventListener('click', (evt) => {
+        handleLikeCard(evt, cardId, cardLikeCounter)
+    });
+
+    if (isOwner) {
+        cardDelete.classList.add("card__button-delete_active")
+        cardDelete.addEventListener('click', (evt) => {
+            handleDeleteCard(evt, cardId);
+        })
+    }
     templateCardImage.alt = card.name;
     templateCardImage.addEventListener('click', () => {
         handlePreviewImages(card)
@@ -72,24 +105,45 @@ export function createCard(card) {
 }
 
 //реализация лайка
-function handleLikeCard(evt) {
-    evt.target.classList.toggle('like-active')
+function handleLikeCard(evt, cardId, cardLikeCounter) {
+    if (evt.target.classList.contains('like-active')) {
+        removeLike(cardId)
+            .then(card => {
+                    cardLikeCounter.textContent = card.likes.length;
+                }
+            ).catch(err => responseError(err, 'removeLike'))
+            .finally(() => evt.target.classList.toggle('like-active'));
+    } else {
+        setLike(cardId)
+            .then(card => {
+                    cardLikeCounter.textContent = card.likes.length;
+                }
+            ).catch(err => responseError(err, 'setLike'))
+            .finally(() => evt.target.classList.toggle('like-active'));
+
+    }
+
+
 }
 
 // удаление карточки
-function handleDeleteCard(evt) {
-    evt.target.closest('.card').remove()
+function handleDeleteCard(evt, cardId) {
+    deleteCard(cardId)
+        .catch(err => responseError(err, 'deleteCard'))
+        .finally(() => evt.target.closest('.card').remove());
 }
 
 //добавление карточки
-export function addCartInList(card) {
-    const templateElement = createCard(card);
-    cardList.prepend(templateElement)
+export function addCartInList(card, userId) {
+    cardList.prepend(createCard(card, userId))
 }
-
-initialCards.forEach(addCartInList);
 
 //submit
 formElement.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
+
 cardForm.addEventListener('submit', handlerCardSubmit);
+updateAvatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
+
+
+//счетчик лайков
