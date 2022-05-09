@@ -3,7 +3,7 @@ import './styles/index.css';
 
 //импорт из файла card.js
 import './components/card'
-import {addCartInList, formElement, initialCards} from "./components/card";
+import {addCartInList} from "./components/card";
 
 //modal
 import {handlerProfileSubmit, setProfile} from "./components/modal";
@@ -15,16 +15,12 @@ import {enableValidation} from "./components/validate";
 import {getCards, getUserInfo} from "./components/api";
 import {responseError} from "./components/utils";
 
-getUserInfo()
-    .then(res =>
-        setProfile(res.name, res.about, res.avatar)
-    ).catch(err => responseError(err, 'getUserInfo'));
-
 
 Promise
     .all([getCards(), getUserInfo()])
     .then(([cards, userInfo]) => {
-        cards.forEach(card => addCartInList(card,userInfo._id))
-    } ).catch(err => responseError(err, 'getCards'));
+        setProfile(userInfo.name, userInfo.about, userInfo.avatar)
+        cards.reverse().forEach(card => addCartInList(card, userInfo._id))
+    }).catch(err => responseError(err, 'getCards && getUserInfo'));
 
 

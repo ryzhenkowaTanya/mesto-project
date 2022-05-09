@@ -5,9 +5,9 @@ import {popupCreateCard} from "./modal";
 import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
 import {responseError} from "./utils";
 
-export const formElement = document.querySelector('.popup__form_type_edit-info');
+export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
 export const cardForm = document.querySelector('.popup__form_type_card');
-export const updateAvatarForm = document.querySelector('.popup__form_type_update-avatar');
+export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
 
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
 export const nameInputCard = document.querySelector('.popup__input_type_name-card');
@@ -17,48 +17,27 @@ export const loading = document.getElementById('loading')
 
 const cardList = document.querySelector('.cards__list');
 
-export const initialCards = [
-    {
-        name: 'Pulau Ubin',
-        link: 'https://images.unsplash.com/photo-1617015606776-c54fd56b69b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80',
-        alt: ''
-    },
-    {
-        name: 'Portovenere',
-        link: 'https://images.unsplash.com/photo-1617102888614-ae5c7c90d7eb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        alt: ''
-    },
-    {
-        name: 'Takayama',
-        link: 'https://images.unsplash.com/photo-1616666720355-03ce7f70b237?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-        alt: ''
-    },
-    {
-        name: 'Ortygia',
-        link: 'https://images.unsplash.com/photo-1612361814394-35785ba16dc3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=702&q=80',
-        alt: ''
-    },
-    {
-        name: 'Novara di Sicilia',
-        link: 'https://images.unsplash.com/photo-1612361808300-da9583e1b34e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=671&q=80',
-        alt: ''
-    },
-    {
-        name: 'Gíza',
-        link: 'https://images.unsplash.com/photo-1590133324192-1df305deea6b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1252&q=80',
-        alt: ''
-    }];
+
+let userId = null
+
+getUserInfo()
+    .then((userInfo) => {
+        userId = userInfo._id
+    }).catch(err => responseError(err, 'getUserInfo'));
+
+function setTextContent(element, value) {
+    element.textContent = value
+}
 
 export function handlerCardSubmit(evt) {
     evt.preventDefault();
-    Promise
-        .all([addCard(nameInputCard.value, linkInputCard.value), getUserInfo()])
-        .then(([card, userInfo]) => {
-                addCartInList(card, userInfo._id)
+    addCard(nameInputCard.value, linkInputCard.value)
+        .then((card) => {
+                addCartInList(card, userId);
+                cardForm.reset();
+                closePopup(popupCreateCard);
             }
         ).catch(err => responseError(err, 'addCard'))
-    cardForm.reset();
-    closePopup(popupCreateCard);
 }
 
 export function handlerUpdateAvatarSubmit(evt) {
@@ -66,18 +45,21 @@ export function handlerUpdateAvatarSubmit(evt) {
     evt.preventDefault();
     updateUserAvatar(linkNameAvatar.value)
         .then((res) => {
-                setProfile(res.name, res.about, res.avatar)
+                setProfile(res.name, res.about, res.avatar);
+                avatarForm.reset();
+                closePopup(popupUpdateAvatar);
+
             }
         ).catch(err => responseError(err, 'updateUserAvatar'))
-    updateAvatarForm.reset();
-    closePopup(popupUpdateAvatar);
-    loading.textContent = "Сохранить"
+        .finally(() => {
+            loading.textContent = "Сохранить";
+        })
 }
 
 //создание новой карточки
 export function createCard(card, userId) {
-    let isOwner = card.owner._id === userId
-    let cardId = card._id;
+    const isOwner = card.owner._id === userId
+    const cardId = card._id;
     const templateElement = templateCards.cloneNode(true);
     templateElement.querySelector('.card__title').textContent = card.name;
     const templateCardImage = templateElement.querySelector('.card__image');
@@ -85,7 +67,7 @@ export function createCard(card, userId) {
     const cardDelete = templateElement.querySelector('.card__button-delete')
 
     const cardLikeCounter = templateElement.querySelector('.card__like-counter')
-    cardLikeCounter.textContent = card.likes.length
+    setTextContent(cardLikeCounter, card.likes.length)
     templateCardImage.setAttribute('src', card.link);
     btnLike.addEventListener('click', (evt) => {
         handleLikeCard(evt, cardId, cardLikeCounter)
@@ -110,28 +92,26 @@ function handleLikeCard(evt, cardId, cardLikeCounter) {
     if (evt.target.classList.contains('like-active')) {
         removeLike(cardId)
             .then(card => {
-                    cardLikeCounter.textContent = card.likes.length;
+                    setTextContent(cardLikeCounter, card.likes.length);
+                    evt.target.classList.toggle('like-active');
                 }
             ).catch(err => responseError(err, 'removeLike'))
-            .finally(() => evt.target.classList.toggle('like-active'));
     } else {
         setLike(cardId)
             .then(card => {
-                    cardLikeCounter.textContent = card.likes.length;
+                    setTextContent(cardLikeCounter, card.likes.length);
+                    evt.target.classList.toggle('like-active');
                 }
             ).catch(err => responseError(err, 'setLike'))
-            .finally(() => evt.target.classList.toggle('like-active'));
-
     }
-
-
 }
 
 // удаление карточки
 function handleDeleteCard(evt, cardId) {
-    deleteCard(cardId)
+    deleteCard(cardId).then(() => {
+        evt.target.closest('.card').remove()
+    })
         .catch(err => responseError(err, 'deleteCard'))
-        .finally(() => evt.target.closest('.card').remove());
 }
 
 //добавление карточки
@@ -140,11 +120,11 @@ export function addCartInList(card, userId) {
 }
 
 //submit
-formElement.addEventListener('submit', handlerProfileSubmit);
+userInfoForm.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 
 cardForm.addEventListener('submit', handlerCardSubmit);
-updateAvatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
+avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
 
 
 //счетчик лайков
