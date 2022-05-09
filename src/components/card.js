@@ -1,11 +1,14 @@
-import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
-import {handlePreviewImages} from "./modal";
-import {handlerProfileSubmit} from "./modal";
-import {popupCreateCard} from "./modal";
+import {closePopup} from "./modal";
+// import {buttonOpenPopupProfile, closePopup, editPopup, popupUpdateAvatar, setProfile} from "./modal";
+import { editPopup, popupUpdateAvatar, setProfile} from "../index";
+import {handlePreviewImages} from "../index";
+import {handlerProfileSubmit} from "../index";
+import {popupCreateCard} from "../index";
 import {addCard, deleteCard, getUserInfo, removeLike, setLike, updateUserAvatar} from "./api";
 import {responseError} from "./utils";
 
 export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
+export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 export const cardForm = document.querySelector('.popup__form_type_card');
 export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
 
