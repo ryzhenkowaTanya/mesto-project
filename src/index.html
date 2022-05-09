@@ -34,27 +34,28 @@
     <footer class="footer">
         <p class="footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
-    <div class="popup popup_type_edit">
-        <div class="popup__content">
-            <button aria-label="Кнопка закрытия формы редактирования" type="button"
-                    class="popup__close button-hover"></button>
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <form name="editInfo" class="popup__form form" action="#" method="post" novalidate>
-                <div class="form__field">
-                    <input id="name-input" name="profileName" type="text" class="popup__input popup__input_type_name"
-                           value="" minlength="2" maxlength="40" required>
-                    <span id="name-input-error" class="name-input-error form__input-error"></span>
-                </div>
-                <div class="form__field">
-                    <input id="job-input" name="profileJob" type="text" class="popup__input popup__input_type_job"
-                           value="" minlength="2" maxlength="200" required>
-                    <span id="job-input-error" class="job-input-error form__input-error"></span>
-                </div>
-                <button disabled aria-label="Кнопка сохранения данных профиля" class="popup__button" type="submit">
-                    Сохранить
-                </button>
-            </form>
-        </div>
+</div>
+//popups
+<div class="popup popup_type_edit">
+    <div class="popup__content">
+        <button aria-label="Кнопка закрытия формы редактирования" type="button"
+                class="popup__close button-hover"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form name="editInfo" class="popup__form popup__form_type_edit-info form" action="#" method="post" novalidate>
+            <div class="form__field">
+                <input id="name-input" name="profileName" type="text" class="popup__input popup__input_type_name"
+                       value="" minlength="2" maxlength="40" required>
+                <span id="name-input-error" class="name-input-error form__input-error"></span>
+            </div>
+            <div class="form__field">
+                <input id="job-input" name="profileJob" type="text" class="popup__input popup__input_type_job"
+                       value="" minlength="2" maxlength="200" required>
+                <span id="job-input-error" class="job-input-error form__input-error"></span>
+            </div>
+            <button disabled aria-label="Кнопка сохранения данных профиля" class="popup__button" type="submit">
+                Сохранить
+            </button>
+        </form>
     </div>
 </div>
 <div class="popup popup_type_new-card">
@@ -95,6 +96,7 @@
         <form name="updateAvatar" class="popup__form popup__form_type_update-avatar form" novalidate>
             <button type="button" aria-label="Кнопка закрытия формы редактирования попапа" class="popup__close popup__close_type_update-avatar button-hover"></button>
             <h2>Редактировать аватар</h2>
+            <div class="form__field">
             <input id="avatar-input"  type="url"
                    class="form-input popup__input popup__input_name_avatar-link"
                    name="avatarLink"
@@ -102,12 +104,14 @@
                    placeholder="Ссылка на картинку"
                    required/>
             <span id="avatar-input-error" class="avatar-input-error form__input-error"></span>
+            </div>
             <button disabled aria-label="Кнопка сохранения" id = "loading" class="popup__button popup__button_update-avatar" type="submit">
                 Сохранить
             </button>
         </form>
     </div>
 </div>
+//templates
 <template id="card-template" class="card-template">
     <li class="card" id="card">
         <button aria-label="Иконка удаления" type="button" class="card__button-delete"></button>
