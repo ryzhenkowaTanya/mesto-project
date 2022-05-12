@@ -5,7 +5,6 @@ const validationConfig = {
     inputErrorClass: 'popup__input_type_error'
 }
 
-
 export function enableValidation(config) {
     const form = document.querySelector(config.formSelector);
     form.addEventListener('submit', event => handleFormSubmit(event, config));

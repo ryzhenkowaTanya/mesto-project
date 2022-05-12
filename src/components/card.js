@@ -1,6 +1,7 @@
 import {editPopup, handlerCardSubmit, handlerUpdateAvatarSubmit} from "../index";
 import {handlePreviewImages} from "../index";
 import {handlerProfileSubmit} from "../index";
+
 import {deleteCard, removeLike, setLike} from "./api";
 import {responseError} from "./utils";
 
@@ -8,11 +9,8 @@ export const userInfoForm = document.querySelector('.popup__form_type_edit-info'
 export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
 export const cardForm = document.querySelector('.popup__form_type_card');
 export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
-
 export const templateCards = document.querySelector('#card-template').content.querySelector('.card');
-
 const cardList = document.querySelector('.cards__list');
-
 
 function setTextContent(element, value) {
     element.textContent = value
@@ -91,9 +89,5 @@ export function addCartInList(card, userId) {
 //submit
 userInfoForm.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
-
 cardForm.addEventListener('submit', handlerCardSubmit);
 avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
-
-
-//счетчик лайков

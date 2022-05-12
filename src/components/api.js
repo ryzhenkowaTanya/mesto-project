@@ -49,7 +49,6 @@ export const addCard = (name, link) => {
         .then(_getResponseData);
 }
 
-
 export const deleteCard = (cardId) => {
     return fetch(`${config.baseUrl}cards/${cardId}`, {
         method: 'DELETE',
@@ -74,7 +73,6 @@ export const removeLike = (cardId) => {
         .then(_getResponseData);
 }
 
-
 export const updateUserAvatar = (url) => {
     return fetch(`${config.baseUrl}users/me/avatar`, {
         method: 'PATCH',
@@ -83,6 +81,3 @@ export const updateUserAvatar = (url) => {
     })
         .then(_getResponseData);
 }
-
-
-

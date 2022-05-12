@@ -1,8 +1,8 @@
 //Подключение файла со стилями
 import './styles/index.css';
+import './components/card'
 
 //импорт из файла card.js
-import './components/card'
 import {addCartInList, avatarForm, cardForm} from "./components/card";
 
 //импорт из файла validate.js
@@ -10,7 +10,6 @@ import {enableValidation} from "./components/validate";
 import {addCard, getCards, getUserInfo, updateUserAvatar, updateUserProfile} from "./components/api";
 import {responseError} from "./components/utils";
 import {closePopup, openPopup} from "./components/modal";
-
 
 Promise
     .all([getCards(), getUserInfo()])
@@ -48,7 +47,6 @@ getUserInfo()
         userId = userInfo._id
     }).catch(err => responseError(err, 'getUserInfo'));
 
-
 export function handlerCardSubmit(evt) {
     evt.preventDefault();
     addCard(nameInputCard.value, linkInputCard.value)
@@ -59,7 +57,6 @@ export function handlerCardSubmit(evt) {
             }
         ).catch(err => responseError(err, 'addCard'))
 }
-
 
 export function handlerUpdateAvatarSubmit(evt) {
     loading.textContent = "Сохранение..."
@@ -91,7 +88,6 @@ export function setUserAvatar(avatar) {
     profileAvatar.src = avatar
 }
 
-
 export function editPopup() {
     inputName.value = profileName.textContent;
     inputJob.value = profileJob.textContent;
@@ -119,3 +115,10 @@ export function handlePreviewImages(card) {
 //Listener for open popup
 buttonCreateCard.addEventListener('click', () => openPopup(popupCreateCard));
 buttonUpdateAvatar.addEventListener('click', () => openPopup(popupUpdateAvatar));
+
+
+//submit
+// userInfoForm.addEventListener('submit', handlerProfileSubmit);
+// buttonOpenPopupProfile.addEventListener('click', editPopup);
+// cardForm.addEventListener('submit', handlerCardSubmit);
+// avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
