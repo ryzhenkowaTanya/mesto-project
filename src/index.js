@@ -11,9 +11,12 @@ import {addCard, getCards, getUserInfo, updateUserAvatar, updateUserProfile} fro
 import {responseError} from "./components/utils";
 import {closePopup, openPopup} from "./components/modal";
 
+let userId = null
+
 Promise
     .all([getCards(), getUserInfo()])
     .then(([cards, userInfo]) => {
+        userId = userInfo._id
         setProfile(userInfo.name, userInfo.about, userInfo.avatar)
         cards.reverse().forEach(card => addCartInList(card, userInfo._id))
     }).catch(err => responseError(err, 'getCards && getUserInfo'));
@@ -39,15 +42,10 @@ export const linkInputCard = document.querySelector('.popup__input_type_link');
 
 export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
 export const loading = document.getElementById('loading')
-
-let userId = null
-
-getUserInfo()
-    .then((userInfo) => {
-        userId = userInfo._id
-    }).catch(err => responseError(err, 'getUserInfo'));
+export const createCard = document.getElementById('create')
 
 export function handlerCardSubmit(evt) {
+    createCard.textContent = "Cоздание..."
     evt.preventDefault();
     addCard(nameInputCard.value, linkInputCard.value)
         .then((card) => {
@@ -56,6 +54,9 @@ export function handlerCardSubmit(evt) {
                 closePopup(popupCreateCard);
             }
         ).catch(err => responseError(err, 'addCard'))
+        .finally(() => {
+            createCard.textContent = "Cоздать";
+        })
 }
 
 export function handlerUpdateAvatarSubmit(evt) {

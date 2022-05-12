@@ -54,23 +54,18 @@ export function createCard(card, userId) {
 function handleLikeCard(evt, cardId, cardLikeCounter) {
     if (evt.target.classList.contains('like-active')) {
         removeLike(cardId)
-            .then(card => {
-                    setTextContent(cardLikeCounter, card.likes.length);
-                    evt.target.classList.toggle('like-active');
-                }
+            .then(card => setOrRemoveLikes(evt, cardLikeCounter, card.likes.length)
             ).catch(err => responseError(err, 'removeLike'))
     } else {
         setLike(cardId)
-            .then(card => {
-                    setTextContent(cardLikeCounter, card.likes.length);
-                    evt.target.classList.toggle('like-active');
-                }
+            .then(card => setOrRemoveLikes(evt, cardLikeCounter, card.likes.length)
             ).catch(err => responseError(err, 'setLike'))
     }
 }
 
-function removeCard(evt) {
-    evt.target.closest('.card').remove()
+function setOrRemoveLikes(evt, cardLikeCounter, countLikes) {
+    setTextContent(cardLikeCounter, countLikes);
+    evt.target.classList.toggle('like-active');
 }
 
 // удаление карточки
@@ -79,6 +74,10 @@ function handleDeleteCard(evt, cardId) {
         removeCard(evt)
     })
         .catch(err => responseError(err, 'deleteCard'))
+}
+
+function removeCard(evt) {
+    evt.target.closest('.card').remove()
 }
 
 //добавление карточки
