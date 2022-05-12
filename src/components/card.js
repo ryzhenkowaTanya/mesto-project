@@ -1,5 +1,4 @@
 import {editPopup, handlerCardSubmit, handlerUpdateAvatarSubmit} from "../index";
-import {handlePreviewImages} from "../index";
 import {handlerProfileSubmit} from "../index";
 
 import {deleteCard, removeLike, setLike} from "./api";
@@ -17,7 +16,7 @@ function setTextContent(element, value) {
 }
 
 //создание новой карточки
-export function createCard(card, userId) {
+export function createCard(card, userId, handlePreviewImages) {
     const isOwner = card.owner._id === userId
     const cardId = card._id;
     const templateElement = templateCards.cloneNode(true);
@@ -81,8 +80,8 @@ function removeCard(evt) {
 }
 
 //добавление карточки
-export function addCartInList(card, userId) {
-    cardList.prepend(createCard(card, userId))
+export function addCartInList(card, userId, handlePreviewImages) {
+    cardList.prepend(createCard(card, userId, handlePreviewImages))
 }
 
 //submit

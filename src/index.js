@@ -18,7 +18,7 @@ Promise
     .then(([cards, userInfo]) => {
         userId = userInfo._id
         setProfile(userInfo.name, userInfo.about, userInfo.avatar)
-        cards.reverse().forEach(card => addCartInList(card, userInfo._id))
+        cards.reverse().forEach(card => addCartInList(card, userInfo._id, handlePreviewImages))
     }).catch(err => responseError(err, 'getCards && getUserInfo'));
 
 const inputName = document.querySelector('.popup__input_type_name');
@@ -49,7 +49,7 @@ export function handlerCardSubmit(evt) {
     evt.preventDefault();
     addCard(nameInputCard.value, linkInputCard.value)
         .then((card) => {
-                addCartInList(card, userId);
+                addCartInList(card, userId, handlePreviewImages);
                 cardForm.reset();
                 closePopup(popupCreateCard);
             }
