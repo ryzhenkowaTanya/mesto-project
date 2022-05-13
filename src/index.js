@@ -3,7 +3,7 @@ import './styles/index.css';
 import './components/card'
 
 //импорт из файла card.js
-import {addCartInList, avatarForm, cardForm} from "./components/card";
+import {addCartInList} from "./components/card";
 
 //импорт из файла validate.js
 import {enableValidation} from "./components/validate";
@@ -118,8 +118,13 @@ buttonCreateCard.addEventListener('click', () => openPopup(popupCreateCard));
 buttonUpdateAvatar.addEventListener('click', () => openPopup(popupUpdateAvatar));
 
 
+export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
+export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+export const cardForm = document.querySelector('.popup__form_type_card');
+export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
+
 //submit
-// userInfoForm.addEventListener('submit', handlerProfileSubmit);
-// buttonOpenPopupProfile.addEventListener('click', editPopup);
-// cardForm.addEventListener('submit', handlerCardSubmit);
-// avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
+userInfoForm.addEventListener('submit', handlerProfileSubmit);
+buttonOpenPopupProfile.addEventListener('click', editPopup);
+cardForm.addEventListener('submit', handlerCardSubmit);
+avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
