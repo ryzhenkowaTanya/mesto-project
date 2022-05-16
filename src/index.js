@@ -4,11 +4,13 @@ import './components/card'
 
 //импорт из файла card.js
 import {addCartInList} from "./components/card";
-
 //импорт из файла validate.js
-import {enableValidation} from "./components/validate";
+import {enableValidation, validationConfig} from "./components/validate";
+//импорт из файла api.js
 import {addCard, getCards, getUserInfo, updateUserAvatar, updateUserProfile} from "./components/api";
+//импорт из файла utils.js
 import {responseError} from "./components/utils";
+//импорт из файла madal.js
 import {closePopup, openPopup} from "./components/modal";
 
 let userId = null
@@ -31,18 +33,19 @@ const popupOpenImage = document.querySelector('.popup__image');
 const popupSignatureImage = document.querySelector('.popup__caption');
 const popupImage = document.querySelector('.popup_type_image');
 const buttonCreateCard = document.querySelector('.profile__button-add');
-
 const buttonUpdateAvatar = document.querySelector(".profile__avatar-button")
-
 export const popupCreateCard = document.querySelector('.popup_type_new-card');
 export const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar')
-
 export const nameInputCard = document.querySelector('.popup__input_type_name-card');
 export const linkInputCard = document.querySelector('.popup__input_type_link');
-
 export const linkNameAvatar = document.querySelector('.popup__input_name_avatar-link');
 export const loading = document.getElementById('loading')
+export const saveUserProfile = document.getElementById('save-user-profile')
 export const createCard = document.getElementById('create')
+export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
+export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
+export const cardForm = document.querySelector('.popup__form_type_card');
+export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
 
 export function handlerCardSubmit(evt) {
     createCard.textContent = "Cоздание..."
@@ -97,6 +100,7 @@ export function editPopup() {
 }
 
 export function handlerProfileSubmit(evt) {
+    saveUserProfile.textContent = "Сохранение..."
     evt.preventDefault();
     updateUserProfile(inputName.value, inputJob.value)
         .then(res => {
@@ -104,6 +108,9 @@ export function handlerProfileSubmit(evt) {
             closePopup(popupEditProfile);
         })
         .catch(err => responseError(err, 'updateUserProfile'))
+        .finally(() => {
+            saveUserProfile.textContent = "Сохранить";
+        })
 }
 
 export function handlePreviewImages(card) {
@@ -117,14 +124,22 @@ export function handlePreviewImages(card) {
 buttonCreateCard.addEventListener('click', () => openPopup(popupCreateCard));
 buttonUpdateAvatar.addEventListener('click', () => openPopup(popupUpdateAvatar));
 
-
-export const userInfoForm = document.querySelector('.popup__form_type_edit-info');
-export const buttonOpenPopupProfile = document.querySelector('.profile__button-edit');
-export const cardForm = document.querySelector('.popup__form_type_card');
-export const avatarForm = document.querySelector('.popup__form_type_update-avatar');
-
 //submit
 userInfoForm.addEventListener('submit', handlerProfileSubmit);
 buttonOpenPopupProfile.addEventListener('click', editPopup);
 cardForm.addEventListener('submit', handlerCardSubmit);
 avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
+
+
+enableValidation(Object.assign({
+    formSelector: '.popup__form[name="editInfo"]'
+}, validationConfig))
+
+enableValidation(Object.assign({
+    formSelector: '.popup__form[name="insertInfo"]'
+}, validationConfig))
+
+enableValidation(Object.assign({
+    formSelector: '.popup__form[name="updateAvatar"]',
+}, validationConfig))
+

@@ -1,4 +1,4 @@
-const validationConfig = {
+export const validationConfig = {
     submitButtonSelector: '.popup__button',
     validButtonClass: 'popup_button_valid',
     invalidButtonClass: 'popup_button_invalid',
@@ -52,15 +52,3 @@ export function setSubmitButtonState(form, config) {
         button.setAttribute('disabled', 'disabled');
     }
 }
-
-enableValidation(Object.assign({
-    formSelector: '.popup__form[name="editInfo"]'
-}, validationConfig))
-
-enableValidation(Object.assign({
-    formSelector: '.popup__form[name="insertInfo"]'
-}, validationConfig))
-
-enableValidation(Object.assign({
-    formSelector: '.popup__form[name="updateAvatar"]',
-}, validationConfig))
