@@ -130,7 +130,6 @@ buttonOpenPopupProfile.addEventListener('click', editPopup);
 cardForm.addEventListener('submit', handlerCardSubmit);
 avatarForm.addEventListener('submit', handlerUpdateAvatarSubmit);
 
-
 enableValidation(Object.assign({
     formSelector: '.popup__form[name="editInfo"]'
 }, validationConfig))
